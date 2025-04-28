@@ -1,41 +1,42 @@
-# 📄 README_preprocessing — Подготовка данных
+# 📄 README_preprocessing — Data Preparation
 
-## Общие этапы предобработки
+## Common Preprocessing Steps
 
-Для всех ноутбуков выполняются следующие общие шаги предобработки данных:
+The following common preprocessing steps are performed in all notebooks:
 
-- **Формирование целевой переменной:** `target = like + dislike` в тренировочном наборе.
-- **Оптимизация памяти:**
-  - Приведение типов данных (`category`, `int8`) для минимизации объёма данных.
-- **Сохранение новых датасетов:**
-  - После предобработки данные сохраняются для быстрой тренировки моделей.
+- **Target Variable Formation:** `target = like + dislike` in the training dataset.
+- **Memory Optimization:**
+  - Data type conversion (`category`, `int8`) to minimize data size.
+- **Saving New Datasets:**
+  - After preprocessing, the data is saved for quick model training.
 
-Эти шаги выполняются в каждом ноутбуке для уменьшения размера данных и упрощения структуры.
-
----
-
-## 📄 fv2 — Первичная предобработка
-
-### Что сделано:
-- **Дополнительные признаки:**
-  - Добавлены признаки: `age`, `item_duration` через конфигурацию `CONFIG`.
+These steps are applied in each notebook to reduce data size and simplify the structure.
 
 ---
 
-## 📄 fv3 — Вторичная предобработка
+## 📄 fv2 — Initial Preprocessing
 
-### Что сделано:
-- **Дополнительные признаки:**
-  - Добавлены признаки: `age`, `gender`, `duration`, `source_id`.
-  - Интеграция эмбеддингов содержимого клипа (`embeddings`) в тренировочные и тестовые данные.
+### What has been done:
+- **Additional Features:**
+  - Added features: `age`, `item_duration` via the `CONFIG` configuration.
 
 ---
 
-## 📄 av1 — Расширенная предобработка
+## 📄 fv3 — Secondary Preprocessing
 
-### Что сделано:
-- **Дополнительные признаки:**
-  - Добавлены признаки на уровне пользователей, видео и источников:
-    - **Пользователи:** `age`, `gender`, `user_like_ratio`, `user_dislike_ratio`, `user_ignore_ratio`, `user_share_ratio`, `user_bookmark_ratio`, `user_avg_spent_time`, `user_view_ratio`, `user_full_view_ratio`.
-    - **Видео:** `item_duration`, `item_like_ratio`, `item_dislike_ratio`, `item_ignore_ratio`, `item_share_ratio`, `item_bookmark_ratio`, `item_avg_spent_time_ratio`, `item_view_ratio`, `item_full_view_ratio`.
-    - **Источник:** `source_id`, `source_like_ratio`, `source_dislike_ratio`, `source_ignore_ratio`, `source_share_ratio`, `source_bookmark_ratio`, `source_avg_spent_time_ratio`, `source_view_ratio`, `source_full_view_ratio`.
+### What has been done:
+- **Additional Features:**
+  - Added features: `age`, `gender`, `duration`, `source_id`.
+  - Integrated video content embeddings (`embeddings`) into the training and test datasets.
+
+---
+
+## 📄 av1 — Extended Preprocessing
+
+### What has been done:
+- **Additional Features:**
+  - Added features at the user, item, and source levels:
+    - **User-level features:** `age`, `gender`, `user_like_ratio`, `user_dislike_ratio`, `user_ignore_ratio`, `user_share_ratio`, `user_bookmark_ratio`, `user_avg_spent_time`, `user_view_ratio`, `user_full_view_ratio`.
+    - **Item-level features:** `item_duration`, `item_like_ratio`, `item_dislike_ratio`, `item_ignore_ratio`, `item_share_ratio`, `item_bookmark_ratio`, `item_avg_spent_time_ratio`, `item_view_ratio`, `item_full_view_ratio`.
+    - **Source-level features:** `source_id`, `source_like_ratio`, `source_dislike_ratio`, `source_ignore_ratio`, `source_share_ratio`, `source_bookmark_ratio`, `source_avg_spent_time_ratio`, `source_view_ratio`, `source_full_view_ratio`.
+
