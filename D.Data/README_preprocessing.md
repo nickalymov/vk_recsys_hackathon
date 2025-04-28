@@ -6,7 +6,7 @@ The following common preprocessing steps are performed in all notebooks:
 
 - **Target Variable Formation:** `target = like + dislike` in the training dataset.
 - **Memory Optimization:**
-  - Data type conversion (`category`, `int8`) to minimize data size.
+  - Data type conversion (`category`, `int`, `float`) to minimize data size.
 - **Saving New Datasets:**
   - After preprocessing, the data is saved for quick model training.
 
