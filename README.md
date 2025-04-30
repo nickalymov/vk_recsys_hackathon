@@ -1,85 +1,84 @@
 # 🎯 VK RecSys Challenge – AI VK Explicit Feedback Prediction
 
-🧠 Участие в соревновании по предсказанию лайков и дизлайков пользователей VK Клипов от AI VK.
+🧠 Participated in the competition for predicting user likes and dislikes on VK Clips from AI VK.
 
-📊 **Результат**: 13 место из 465 команд  
-💡 **ROC-AUC**: `0.6666753935` на приватном лидерборде
+📊 **Result**: 13th place out of 465 teams  
+💡 **ROC-AUC**: `0.6666753935` on the private leaderboard
 
-## 📝 Задача
+## 📝 Task
 
-Построить модель, предсказывающую явный фидбэк (лайк / дизлайк / игнор) пользователя по отношению к видео в VK Клипах.
+Build a model predicting explicit feedback (like / dislike / ignore) from users towards videos in VK Clips.
 
-### 🎯 Целевая метрика
-Мультиклассовый ROC-AUC по трем меткам:  
+### 🎯 Target Metric
+Multiclass ROC-AUC for three labels:  
 - `like = 1`  
 - `dislike = -1`  
 - `ignore = 0`
 
-## 📂 Данные
+## 📂 Data
 
-**Тренировочный датасет** – взаимодействия пользователей с клипами за 6 недель:  
+**Training dataset** – User interactions with clips over 6 weeks:  
 - `user_id`, `item_id`, `timespent`, `like`, `dislike`, `share`, `bookmarks`
 
-**Метаданные пользователей**:
+**User metadata**:
 - `user_id`, `gender`, `age`
 
-**Метаданные клипов**:
-- `item_id`, `source_id`, `duration`, `embeddings` (нейросетевые эмбеддинги мультимодального содержимого)
+**Clip metadata**:
+- `item_id`, `source_id`, `duration`, `embeddings` (neural embeddings of multimodal content)
 
-**Тестовый датасет**:
-- Пары `(user_id, item_id)` из 7-й недели, по которым требуется предсказание.
+**Test dataset**:
+- Pairs `(user_id, item_id)` from week 7 requiring predictions.
 
-## 🧠 Лучшее решение
+## 🧠 Best Solution
 
-🔗 [Ноутбук](https://github.com/nickalymov/vk_recsys_hackathon/blob/main/8.1_test.ipynb)
-🔗 [Файл для сабмита](https://github.com/nickalymov/vk_recsys_hackathon/blob/main/8.1_test_e0.csv.7z)
+🔗 [Notebook](https://github.com/nickalymov/vk_recsys_hackathon/blob/main/8.1_test.ipynb)  
+🔗 [Submission File](https://github.com/nickalymov/vk_recsys_hackathon/blob/main/8.1_test_e0.csv.7z)
 
-Модель DCNv2 с историческими эмбеддингами взаимодействий пользователей и метаинформацией об объектах. Используется гибридная архитектура с Deep & Cross сетями, интеграция item/user features и динамически обновляемых пользовательских историй взаимодействий (like / dislike / ignore).
+The model uses DCNv2 with historical interaction embeddings and object metadata. A hybrid architecture combining Deep & Cross networks integrates item/user features and dynamically updated user interaction histories (like / dislike / ignore).
 
 ---
 
-## 🔧 Архитектура модели
+## 🔧 Model Architecture
 
-- Входные признаки:
-  - Категориальные эмбеддинги: `user_id`, `item_id`, `source_id`, `gender`, `age`, `duration_sec`.
-  - `item_embed`: статический эмбеддинг предмета (32).
-  - `user_history_embed`: эмбеддинг взаимодействий (96 = 3 × 32), формируется по 3 историям:
-    - like / dislike / ignore — среднее по косинусно-близким объектам.
+- **Input Features**:
+  - Categorical embeddings: `user_id`, `item_id`, `source_id`, `gender`, `age`, `duration_sec`.
+  - `item_embed`: static item embedding (32).
+  - `user_history_embed`: interaction embedding (96 = 3 × 32), built from 3 interaction histories:
+    - like / dislike / ignore — average of cosine-similar objects.
 
-- Модель:
+- **Model**:
   - DCNv2:
-    - 3 CrossNet слоя.
-    - 3 слоя MLP.
+    - 3 CrossNet layers.
+    - 3 MLP layers.
   - Dropout + LayerNorm.
-  - Классификация на 3 класса: `0` = dislike, `1` = ignore, `2` = like.
+  - Classification on 3 classes: `0` = dislike, `1` = ignore, `2` = like.
 
 ---
 
-## ⚙️ Обучение
+## ⚙️ Training
 
-- Лосс: `CrossEntropyLoss`.
-- Оптимизатор: `Adam`, `lr=0.001`.
-- Периодическое обновление историй взаимодействий.
-- Выход модели — вероятности по классам, преобразуемые в score:
+- Loss: `CrossEntropyLoss`.
+- Optimizer: `Adam`, `lr=0.001`.
+- Periodic update of interaction histories.
+- Model output — class probabilities converted to scores.
 
+## 🧪 Inference
 
-## 🧪 Инференс
-
-- Для каждого пользователя из `test_pairs.csv` рассчитываются эмбеддинги взаимодействий, используя данные из `train_interactions`.
-- Предсказания делаются на тех же принципах, что и в обучении.
-
----
-
-## ❌ Чего не хватило для результата лучше?
-
-- 🎥 **Полноценная обработка истории взаимодействий через последовательные модели**  
-  Вместо простой агрегации (mean-пулинга) эмбеддингов liked / disliked / ignored предметов, можно было использовать более выразительные архитектуры — такие как **Transformer**, GRU или attention-пулы — для моделирования **временной зависимости** и контекста взаимодействий.  
-  Лучшие участники использовали именно такой подход, подавая **всю последовательность взаимодействий** в модель, что дало прирост качества за счёт учета порядка и насыщенности истории.
-
-🔗 [Лучшие решения](https://ods.ai/competitions/aivkchallenge/video)
+- For each user in `test_pairs.csv`, calculate interaction embeddings using data from `train_interactions`.
+- Predictions are made following the same principles as in training.
 
 ---
 
-## 📎 Ссылка на соревноание
+## ❌ Areas for Improvement
 
-🔗 [Данные и описание соревнования на ODS.ai](https://ods.ai/competitions/aivkchallenge/dataset)
+- 🎥 **Full interaction history processing with sequential models**  
+  Instead of simply aggregating (mean pooling) embeddings of liked / disliked / ignored items, more expressive architectures such as **Transformer**, GRU, or attention pools could be used to model **temporal dependencies** and interaction context.  
+  Top participants used this approach, feeding the **entire sequence of interactions** into the model, which improved performance by accounting for the order and depth of the history.
+
+🔗 [Top Solutions](https://ods.ai/competitions/aivkchallenge/video)
+
+---
+
+## 📎 Competition Link
+
+🔗 [Data and competition description on ODS.ai](https://ods.ai/competitions/aivkchallenge/dataset)
