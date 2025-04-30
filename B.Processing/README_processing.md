@@ -1,16 +1,16 @@
-# 📂 B.Processing - Обработка данных и эксперименты
+# 📂 B.Processing - Data Processing and Experiments
 
-🚀 Здесь находятся все  ноутбуки, использованные для обучения моделей на протяжении всего хакатона. В этой папке собраны как тренировочные, так и тестовые ноутбуки, которые охватывают весь процесс, от предобработки до финальных экспериментов.
+🚀 This folder contains all notebooks used for model training throughout the hackathon. It includes both training and testing notebooks, covering the entire process from preprocessing to final experiments.
 
-##  Структура папки
+## Folder Structure
 
-Папка **B.Processing** включает в себя следующие ноутбуки:
+The **B.Processing** folder includes the following notebooks:
 
-- **train** — Ноутбуки для обучения моделей.
-- **test** — Ноутбуки для тестирования и оценки моделей.
+- **train** — Notebooks for model training.
+- **test** — Notebooks for testing and evaluating models.
 
-## 📊 Результаты
+## 📊 Results
 
-Все результаты экспериментов представлены в виде метрики **ROC AUC**, и они находятся в файле **`roc_auc_plot.png`**. Это график, который отображает результаты всех проведённых экспериментов с подсветкой топ-3 лучших моделей. 🎯
+All experiment results are represented in the **ROC AUC** metric, visualized in the **`roc_auc_plot.png`** file. This plot displays the results of all experiments with the top-3 best models highlighted. 🎯
 
 ![ROC AUC Plot](roc_auc_plot.png)
