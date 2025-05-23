@@ -2,7 +2,7 @@
 
 🧠 Participated in the competition for predicting user likes and dislikes on VK Clips from AI VK.
 
-📊 **Result**: 13th place out of 465 teams  
+📊 **Result**: 13th place out of 465 teams. Link:[leaderboard](https://ods.ai/competitions/aivkchallenge/leaderboard/private)  
 💡 **ROC-AUC**: `0.6666753935` on the private leaderboard
 
 ## 📝 Task
